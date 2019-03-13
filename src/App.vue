@@ -6,6 +6,13 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn
+              flat
+              href="https://github.com/Seanitzel/note-art"
+              target="_blank"
+      >
+        <span class="display-1" style="color: brown;">Repo</span>
+      </v-btn>
+      <v-btn
         flat
         href="https://seanitzel.github.io/Note-Art/index.html"
         target="_blank"
