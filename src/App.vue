@@ -1,28 +1,37 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <v-toolbar app dark>
+      <v-toolbar-title class="headline">
+        <span>Note-Art JS Demo</span>
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn
+        flat
+        href="https://seanitzel.github.io/Note-Art/index.html"
+        target="_blank"
+      >
+        <span class="display-1" style="color: brown;">Docs</span>
+      </v-btn>
+    </v-toolbar>
+
+    <v-content>
+      <demo/>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import demo from './components/demo'
 
 export default {
-  name: 'app',
+  name: 'App',
   components: {
-    HelloWorld
+    demo
+  },
+  data () {
+    return {
+      //
+    }
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
