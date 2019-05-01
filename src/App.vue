@@ -2,29 +2,20 @@
     <v-app>
         <v-toolbar app dark>
             <v-toolbar-title class="headline">
-                <span>Note-Art JS Demo</span>
+                <span class="font-weight-bold green--text">Note-Art JS Demo</span>
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn
-                    flat
-                    href="https://github.com/Seanitzel/note-art"
-                    target="_blank"
-            >
-                <span class="display-1" style="color: brown;">Repo</span>
+            <v-btn flat href="https://github.com/Seanitzel/note-art"
+                   target="_blank">
+                <span class="display-1 green--text">Repo</span>
             </v-btn>
-            <v-btn
-                    flat
-                    href="https://seanitzel.github.io/Note-Art/index.html"
-                    target="_blank"
-            >
-                <span class="display-1" style="color: brown;">Docs</span>
+            <v-btn flat href="https://note-art-docs.netlify.com/"
+                   target="_blank">
+                <span class="display-1 green--text">Docs</span>
             </v-btn>
-            <v-btn
-                    flat
-                    href="https://github.com/Seanitzel/Note-Art-Demo"
-                    target="_blank"
-            >
-                <span class="display-1" style="color: brown;">Source</span>
+            <v-btn flat href="https://github.com/Seanitzel/Note-Art-Demo"
+                   target="_blank">
+                <span class="display-1 green--text">Source</span>
             </v-btn>
         </v-toolbar>
 
