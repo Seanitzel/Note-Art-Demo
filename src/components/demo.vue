@@ -1,45 +1,67 @@
 <template>
     <v-app id="inspire" dark>
         <v-container fluid grid-list-lg text-xs-center>
-            <v-layout row wrap justify-center>
-                <v-flex xs12 pa-4 ma-4>
-                    <span class="display-4 font-weight-bold red--text">Fur Elise</span>
+            <v-layout row wrap justify-center align-center>
+                <v-flex xs12 py-3>
+                    <span class="display-2 blue--text">
+                        Chords & Scales
+                    </span>
                 </v-flex>
-            </v-layout>
-            <v-flex xs12 style="text-align:center">
-                <v-btn round large class="general-btn"
-                       color="success"
-                       @click="driver.play()"
-                       :disabled="!ready">
-                    <v-icon>music_note</v-icon>
-                    Play!
-                    <v-icon>music_note</v-icon>
-                </v-btn>
-            </v-flex>
-            <v-layout row align-center>
-                <v-flex xs12 pa-4>
+                <v-flex xs3>
+                    <v-text-field v-model="note" label="Note">
+                    </v-text-field>
+                </v-flex>
+                <v-flex xs12>
+                    <span class="blue--text">
+                        Major Chord: {{chord}}
+                    </span>
+                </v-flex>
+                <v-flex xs12>
+                    <span class="blue--text">
+                        Major Scale: {{scale}}
+                    </span>
+                </v-flex>
+                <v-flex xs12>
+                    <v-divider></v-divider>
+                </v-flex>
+                <v-flex xs12 pa-1 ma-2>
+                    <span class="display-2 font-weight-bold red--text">Fur Elise</span>
+                </v-flex>
+                <span v-if="!app.get('ready')" class="title red--text">
+                Buffers are loading...
+            </span>
+                <v-flex xs12 pt-4>
+                    <v-btn fab class=""
+                           :color="driver.state==='stopped' ? 'success' : 'error'"
+                           @click="play"
+                           :disabled="!app.get('ready')">
+                        <v-icon v-if="driver.state === 'stopped'">play_arrow</v-icon>
+                        <v-icon v-else>stop</v-icon>
+                    </v-btn>
+                </v-flex>
+                <v-flex xs8 px-5 py-4>
                     <v-slider name="bpm"
                               label="BPM"
-                              :min="20"
-                              :max="500"
+                              :min="40"
+                              :max="300"
                               step="5"
                               v-model="driver.bpm"
-                              @change="updateBPM"
                               thumb-label="always"
                               class="slider"
                               height="30"
+                              max-width="50"
                               color="red"
                     ></v-slider>
                 </v-flex>
             </v-layout>
-            <v-layout column wrap align-center>
-                <v-flex xs12>
+            <v-layout column wrap align-center py-1>
+                <v-flex xs12 pa-2>
                     <v-switch dark color="green"
                               @change="driver.toggleMetronome()"
                               label="Metronome"
                     ></v-switch>
                 </v-flex>
-                <v-flex xs12>
+                <v-flex xs12 py-3>
                     <span class="red--text">{{time}}</span>
                 </v-flex>
             </v-layout>
@@ -57,11 +79,7 @@
 </template>
 
 <script>
-    import {Piano, Driver, Piece, app, Guitar} from 'note-art'
-
-    app.set('path', () => {
-        return './audio/'
-    })
+    import {Piano, Driver, Piece, app, Chord, Scale, Note} from 'note-art'
 
     //Create a new piece
     const piece = new Piece({timeSignature: [3, 8], bpm: 120})
@@ -171,26 +189,17 @@
         name:     'play',
         data:     () => {
             return {
-                bpm:    120,
-                vol:    1,
+                app,
+                bpm:   120,
+                vol:   1,
                 driver,
                 piece,
-                trans:  1,
-                ready:  false,
+                trans: 1,
                 piano,
-                guitar: new Guitar(),
+                note:  'c',
             }
         },
-        created() {
-            setTimeout(() => {
-                this.ready = true
-            }, 100)
-        },
-        destroyed() {
-            // if (this.driver.state === 'playing') {
-            //     this.driver.play()
-            // }
-        },
+
         computed: {
             time: function () {
                 const time = this.driver.position.split(':')
@@ -200,13 +209,26 @@
             seconds: function () {
                 return this.driver.seconds
             },
-        },
-        methods:  {
-            g() {
 
+            chord: function () {
+                return new Chord({
+                    root:    Note.builder(`${this.note}3`),
+                    pattern: [4, 7],
+                }).pitchClasses
             },
-            updateBPM() {
 
+            scale: function () {
+                return new Scale({
+                    tonic:    Note.builder(`${this.note}3`),
+                    name: 'Major',
+                }).pitchClassNamesString
+            },
+        },
+
+        methods:  {
+            play() {
+                app.get('audio-manager').resumeContext()
+                this.driver.play()
             },
             transpose() {
                 const interval = parseInt(this.trans)

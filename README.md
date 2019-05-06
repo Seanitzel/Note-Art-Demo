@@ -1,4 +1,6 @@
-# note-art-demo2
+# note-art-demo
+
+Demo for the npm library [:boom: note-art :guitar:](https://github.com/Seanitzel/note-art).
 
 ## Project setup
 ```
