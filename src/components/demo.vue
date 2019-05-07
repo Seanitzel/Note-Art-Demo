@@ -6,9 +6,22 @@
                     <span class="display-2 blue--text">
                         Chords & Scales
                     </span>
+                    <v-flex xs12 mt-3>
+                        <span class="blue--text body-1">
+                        Pick any pitch class:
+                    </span>
+                    </v-flex>
                 </v-flex>
-                <v-flex xs3>
-                    <v-text-field v-model="note" label="Note">
+                <v-flex xs12>
+                    <span class="caption blue-grey--text">
+                        Pitch Classes - {{pitchClasses.toString().replace(/,/g, ', ')}}
+                    </span>
+                </v-flex>
+                <v-flex xs5>
+                    <v-text-field box v-model="note"
+                                  label="Pitch Class"
+                                  color="blue"
+                                  prepend-icon="music_note">
                     </v-text-field>
                 </v-flex>
                 <v-flex xs12>
@@ -39,7 +52,10 @@
                         <v-icon v-else>stop</v-icon>
                     </v-btn>
                 </v-flex>
-                <v-flex xs8 px-5 py-4>
+                <v-flex xs12 py-3>
+                    <span class="red--text title">{{time}}</span>
+                </v-flex>
+                <v-flex xs12 px-5 py-2>
                     <v-slider name="bpm"
                               label="BPM"
                               :min="40"
@@ -61,11 +77,11 @@
                               label="Metronome"
                     ></v-switch>
                 </v-flex>
-                <v-flex xs12 py-3>
-                    <span class="red--text">{{time}}</span>
+                <v-flex xs12>
+                    <span class="title red--text">
+                        Transpose the piece to a different key:
+                    </span>
                 </v-flex>
-            </v-layout>
-            <v-layout row wrap align-center justify-center>
                 <v-flex xs2>
                     <v-text-field v-model="trans" name="Transpose" label="Interval"
                                   id="id"></v-text-field>
@@ -79,7 +95,7 @@
 </template>
 
 <script>
-    import {Piano, Driver, Piece, app, Chord, Scale, Note} from 'note-art'
+    import {Piano, Driver, Piece, app, Chord, Scale, Note, MusicTheoryStructures as mts} from 'note-art'
 
     //Create a new piece
     const piece = new Piece({timeSignature: [3, 8], bpm: 120})
@@ -186,17 +202,18 @@
     driver.loopStart = '1m'
 
     export default {
-        name:     'play',
-        data:     () => {
+        name: 'play',
+        data: () => {
             return {
                 app,
-                bpm:   120,
-                vol:   1,
+                bpm:          120,
+                vol:          1,
                 driver,
                 piece,
-                trans: 1,
+                trans:        1,
                 piano,
-                note:  'c',
+                note:         'c',
+                pitchClasses: mts.pitchClasses,
             }
         },
 
@@ -214,18 +231,18 @@
                 return new Chord({
                     root:    Note.builder(`${this.note}3`),
                     pattern: [4, 7],
-                }).pitchClasses
+                }).pitchClassesString
             },
 
             scale: function () {
                 return new Scale({
-                    tonic:    Note.builder(`${this.note}3`),
-                    name: 'Major',
-                }).pitchClassNamesString
+                    tonic: Note.builder(`${this.note}3`),
+                    name:  'Major',
+                }).pitchClassesString
             },
         },
 
-        methods:  {
+        methods: {
             play() {
                 app.get('audio-manager').resumeContext()
                 this.driver.play()
