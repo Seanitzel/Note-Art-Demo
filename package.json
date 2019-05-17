@@ -9,7 +9,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.0.0-rc.1",
     "core-js": "^2.6.5",
-    "note-art": "^0.1.5",
+    "note-art": "github:seanitzel/note-art#master",
     "vue": "^2.6.10",
     "vuetify": "^1.5.5"
   },

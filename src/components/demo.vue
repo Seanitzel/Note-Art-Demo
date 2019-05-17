@@ -95,10 +95,10 @@
 </template>
 
 <script>
-    import {Piano, Driver, Piece, app, Chord, Scale, Note, MusicTheoryStructures as mts} from 'note-art'
+    import {Piano, Driver, Score, app, Chord, Scale, Note, MusicTheoryStructures as mts} from 'note-art'
 
     //Create a new piece
-    const piece = new Piece({timeSignature: [3, 8], bpm: 120})
+    const piece = new Score({timeSignature: [3, 8], bpm: 120})
 
     //Add another voice to the piece
     piece.addVoice()
@@ -245,14 +245,14 @@
         methods: {
             play() {
                 app.get('audio-manager').resumeContext()
-                this.driver.play()
+                this.driver.toggle()
             },
             transpose() {
                 const interval = parseInt(this.trans)
                 if (interval) {
                     if (this.driver.state === 'started') {
                         setTimeout(() => {
-                            this.driver.play()
+                            this.driver.toggle()
                         }, 1000)
                     }
                     this.driver.transport.stop()
@@ -260,9 +260,9 @@
                     this.piece.transpose(interval, 0)
                     this.piece.transpose(interval, 1)
                     this.driver.scheduleVoices()
-                    if (this.driver.metronome) {
-                        this.driver.startMetronome()
-                    }
+                    // if (this.driver.metronome) {
+                    //     this.driver.startMetronome()
+                    // }
                 }
             },
             isReady() {
