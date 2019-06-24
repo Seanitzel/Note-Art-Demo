@@ -40,14 +40,14 @@
                 <v-flex xs12 pa-1 ma-2>
                     <span class="display-2 font-weight-bold red--text">Fur Elise</span>
                 </v-flex>
-                <span v-if="!app.get('ready')" class="title red--text">
+                <span v-if="!lib.get('ready')" class="title red--text">
                 Buffers are loading...
             </span>
                 <v-flex xs12 pt-4>
                     <v-btn fab class=""
                            :color="driver.state==='stopped' ? 'success' : 'error'"
                            @click="play"
-                           :disabled="!app.get('ready')">
+                           :disabled="!lib.get('ready')">
                         <v-icon v-if="driver.state === 'stopped'">play_arrow</v-icon>
                         <v-icon v-else>stop</v-icon>
                     </v-btn>
@@ -95,117 +95,118 @@
 </template>
 
 <script>
-    import {app, Chord, Driver, MusicTheoryStructures as mts, Note, Piano, Scale, Score} from 'note-art'
-
-    //Create a new piece
-    const piece = new Score({timeSignature: [3, 8], bpm: 120})
-
-    //Add another voice to the piece
-    piece.addVoice()
-
-    //Setup the number of measures we want
-    for (let i = 0; i < 8; ++i) {
-        piece.addMeasure(i, 0)
-        piece.addMeasure(i, 1)
-    }
-
-    //Create the first voice
-
-    //Measure 1
-    ['e1', 'e2', 'e3', 'e4', 'e5', 'd#5'].forEach((note, index) => {
-        piece.addNote({note, duration: '16n'}, index, 0)
-    });
-
-    //Measure 2
-    ['e5', 'd#5', 'e5', 'b4', 'd5', 'c5'].forEach((note, index) => {
-        piece.addNote({note, duration: '16n'}, index, 1)
-    })
-
-    //Measure 3
-    piece.addNote({note: 'a4', duration: '8n'}, 0, 2);
-    ['r', 'c4', 'e4', 'a4'].forEach((note, index) => {
-        piece.addNote({note, duration: '16n'}, index + 1, 2)
-    })
-
-    //Measure 4
-    piece.addNote({note: 'b4', duration: '8n'}, 0, 3);
-    ['r', 'e4', 'g#4', 'b4'].forEach((note, index) => {
-        piece.addNote({note, duration: '16n'}, index + 1, 3)
-    })
-
-    //Measure 5
-    piece.addNote({note: 'c5', duration: '8n'}, 0, 4);
-    ['r', 'e4', 'e5', 'd#5'].forEach((note, index) => {
-        piece.addNote({note, duration: '16n'}, index + 1, 4)
-    });
-
-    //Measure 6
-    ['e5', 'd#5', 'e5', 'b4', 'd5', 'c5'].forEach((note, index) => {
-        piece.addNote({note, duration: '16n'}, index, 5)
-    })
-
-    //Measure 7
-    piece.addNote({note: 'a4', duration: '8n'}, 0, 6);
-    ['r', 'c4', 'e4', 'a4'].forEach((note, index) => {
-        piece.addNote({note, duration: '16n'}, index + 1, 6)
-    })
-
-    //Measure 8
-    piece.addNote({note: 'b4', duration: '8n'}, 0, 7);
-    ['r', 'e4', 'c5', 'b4'].forEach((note, index) => {
-        piece.addNote({note, duration: '16n'}, index + 1, 7)
-    })
-
-    //Measure 9
-    piece.addNote({note: 'a4', duration: '4n'}, 0, 8);
-    ['e5', 'd#5'].forEach((note, index) => {
-        piece.addNote({note, duration: '16n'}, index + 1, 8)
-    })
-
-    //Voice 2
-    const notes1 = ['a2', 'e3', 'a3']
-    const notes2 = ['e2', 'e3', 'g#3']
-
-    //Measure 3
-    notes1.forEach((note, index) => {
-        piece.addNote({note, duration: '16n'}, index, 2, 1)
-    })
-
-    //Measure 4
-    notes2.forEach((note, index) => {
-        piece.addNote({note, duration: '16n'}, index, 3, 1)
-    })
-
-    //Measure 5
-    notes1.forEach((note, index) => {
-        piece.addNote({note, duration: '16n'}, index, 4, 1)
-    })
-
-    //Measure 7
-    notes1.forEach((note, index) => {
-        piece.addNote({note, duration: '16n'}, index, 6, 1)
-    })
-
-    //Measure 8
-    notes2.forEach((note, index) => {
-        piece.addNote({note, duration: '16n'}, index, 7, 1)
-    });
-
-    //Measure 9
-    ['a2', 'e3', 'a3'].forEach((note, index) => {
-        piece.addNote({note, duration: '16n'}, index, 8, 1)
-    })
-
-    const piano  = new Piano()
-    const driver = new Driver(piece, [piano, piano]).init()
-    driver.scheduleVoices()
-    driver.loopStart = '1m'
+    import {lib, Chord, Driver, MusicTheoryStructures as mts, Note, Piano, Scale, Score} from 'note-art'
 
     export default {
         name: 'play',
         data: () => {
+            //Create a new piece
+            const piece = new Score({timeSignature: [3, 8], bpm: 120})
+
+            //Add another voice to the piece
+            piece.addVoice()
+
+            //Setup the number of measures we want
+            for (let i = 0; i < 8; ++i) {
+                piece.addMeasure(i, 0)
+                piece.addMeasure(i, 1)
+            }
+
+            //Create the first voice
+
+            //Measure 1
+            ['e1', 'e2', 'e3', 'e4', 'e5', 'd#5'].forEach((note, index) => {
+                piece.addNote({note, duration: '16n'}, index, 0)
+            });
+
+            //Measure 2
+            ['e5', 'd#5', 'e5', 'b4', 'd5', 'c5'].forEach((note, index) => {
+                piece.addNote({note, duration: '16n'}, index, 1)
+            })
+
+            //Measure 3
+            piece.addNote({note: 'a4', duration: '8n'}, 0, 2);
+            ['r', 'c4', 'e4', 'a4'].forEach((note, index) => {
+                piece.addNote({note, duration: '16n'}, index + 1, 2)
+            })
+
+            //Measure 4
+            piece.addNote({note: 'b4', duration: '8n'}, 0, 3);
+            ['r', 'e4', 'g#4', 'b4'].forEach((note, index) => {
+                piece.addNote({note, duration: '16n'}, index + 1, 3)
+            })
+
+            //Measure 5
+            piece.addNote({note: 'c5', duration: '8n'}, 0, 4);
+            ['r', 'e4', 'e5', 'd#5'].forEach((note, index) => {
+                piece.addNote({note, duration: '16n'}, index + 1, 4)
+            });
+
+            //Measure 6
+            ['e5', 'd#5', 'e5', 'b4', 'd5', 'c5'].forEach((note, index) => {
+                piece.addNote({note, duration: '16n'}, index, 5)
+            })
+
+            //Measure 7
+            piece.addNote({note: 'a4', duration: '8n'}, 0, 6);
+            ['r', 'c4', 'e4', 'a4'].forEach((note, index) => {
+                piece.addNote({note, duration: '16n'}, index + 1, 6)
+            })
+
+            //Measure 8
+            piece.addNote({note: 'b4', duration: '8n'}, 0, 7);
+            ['r', 'e4', 'c5', 'b4'].forEach((note, index) => {
+                piece.addNote({note, duration: '16n'}, index + 1, 7)
+            })
+
+            //Measure 9
+            piece.addNote({note: 'a4', duration: '4n'}, 0, 8);
+            ['e5', 'd#5'].forEach((note, index) => {
+                piece.addNote({note, duration: '16n'}, index + 1, 8)
+            })
+
+            //Voice 2
+            const notes1 = ['a2', 'e3', 'a3']
+            const notes2 = ['e2', 'e3', 'g#3']
+
+            //Measure 3
+            notes1.forEach((note, index) => {
+                piece.addNote({note, duration: '16n'}, index, 2, 1)
+            })
+
+            //Measure 4
+            notes2.forEach((note, index) => {
+                piece.addNote({note, duration: '16n'}, index, 3, 1)
+            })
+
+            //Measure 5
+            notes1.forEach((note, index) => {
+                piece.addNote({note, duration: '16n'}, index, 4, 1)
+            })
+
+            //Measure 7
+            notes1.forEach((note, index) => {
+                piece.addNote({note, duration: '16n'}, index, 6, 1)
+            })
+
+            //Measure 8
+            notes2.forEach((note, index) => {
+                piece.addNote({note, duration: '16n'}, index, 7, 1)
+            });
+
+            //Measure 9
+            ['a2', 'e3', 'a3'].forEach((note, index) => {
+                piece.addNote({note, duration: '16n'}, index, 8, 1)
+            })
+
+            const piano  = new Piano()
+            const driver = new Driver().init().setInstruments([piano, piano]).setScore(piece)
+            console.log(driver)
+            driver.scheduleVoices()
+            driver.loopStart = '1m'
+
             return {
-                app,
+                lib,
                 bpm:          120,
                 vol:          1,
                 driver,
@@ -244,7 +245,7 @@
 
         methods: {
             play() {
-                app.get('audio-manager').resumeContext()
+                lib.get('audio-manager').resumeContext()
                 this.driver.toggle()
             },
             transpose() {
@@ -267,7 +268,7 @@
 </script>
 
 <style scoped>
-    #app {
+    #lib {
         text-align: center;
     }
 
