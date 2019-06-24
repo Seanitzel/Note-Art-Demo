@@ -95,7 +95,7 @@
 </template>
 
 <script>
-    import {Piano, Driver, Score, app, Chord, Scale, Note, MusicTheoryStructures as mts} from 'note-art'
+    import {app, Chord, Driver, MusicTheoryStructures as mts, Note, Piano, Scale, Score} from 'note-art'
 
     //Create a new piece
     const piece = new Score({timeSignature: [3, 8], bpm: 120})
@@ -236,8 +236,8 @@
 
             scale: function () {
                 return new Scale({
-                    tonic: Note.builder(`${this.note}3`),
-                    name:  'Major',
+                    tonic:   Note.builder(`${this.note}3`),
+                    pattern: [0, 2, 4, 5, 7, 9, 11],
                 }).pitchClassesString
             },
         },
@@ -260,19 +260,12 @@
                     this.piece.transpose(interval, 0)
                     this.piece.transpose(interval, 1)
                     this.driver.scheduleVoices()
-                    // if (this.driver.metronome) {
-                    //     this.driver.startMetronome()
-                    // }
                 }
-            },
-            isReady() {
-
             },
         },
     }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
     #app {
         text-align: center;
