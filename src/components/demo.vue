@@ -34,6 +34,8 @@
                         Major Scale: {{scale}}
                     </span>
                 </v-flex>
+                <span class="display-2" v-if="driver">
+                </span>
                 <v-flex xs12>
                     <v-divider></v-divider>
                 </v-flex>
@@ -95,7 +97,7 @@
 </template>
 
 <script>
-    import {lib, Chord, Driver, MusicTheoryStructures as mts, Note, Piano, Scale, Score} from 'note-art'
+    import {Chord, Driver, lib, MusicTheoryStructures as mts, Note, Piano, Scale, Score} from 'note-art'
 
     export default {
         name: 'play',
@@ -201,13 +203,12 @@
 
             const piano  = new Piano()
             const driver = new Driver().init().setInstruments([piano, piano]).setScore(piece)
-            console.log(driver)
             driver.scheduleVoices()
             driver.loopStart = '1m'
 
             return {
                 lib,
-                bpm:          120,
+                bpm:          driver.bpm,
                 vol:          1,
                 driver,
                 piece,
